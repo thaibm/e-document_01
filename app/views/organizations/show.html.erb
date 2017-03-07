@@ -47,14 +47,18 @@
       <% end %>
     </div>
   </div>
-  <div class="col-md-4 col-sm-4 col-xs-12">
-    <%= select_tag "organization-select-user", options_for_select(
-      user_not_in_organization(@organization).map {
-        |user| [user.name, user.id] }),
-        multiple: false, size: Settings.organization.select_box_size,
-        class: "select-user-to-add", include_blank: true %>
-    <button id="add-organization-member-btn" class="btn btn-default">
-      <%= t ".add_member" %>
-    </button>
-  </div>
+  <% if @organization.is_admin? current_user %>
+    <div class="col-md-4 col-sm-4 col-xs-12">
+      <%= select_tag "organization-select-user", options_for_select(
+        user_not_in_organization(@organization).map {
+          |user| [user.name, user.id] }),
+          multiple: false, size: Settings.organization.select_box_size,
+          class: "select-user-to-add", include_blank: true %>
+      <button id="add-organization-member-btn" class="btn btn-default"
+        data-group-id="<%= @organization.id %>"
+        data-group-type="<%= @organization.class.name.downcase %>">
+        <%= t ".add_member" %>
+      </button>
+    </div>
+  <% end %>
 <% end %>

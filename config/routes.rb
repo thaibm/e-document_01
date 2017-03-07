@@ -24,9 +24,13 @@ Rails.application.routes.draw do
         resources :chatrooms
         resources :reviews
         resources :organizations do
-          resources :group_members
+          resources :admin_add_members, only: [:create, :destroy]
+          resources :group_members do
+            resources :admin_add_members, only: [:create, :destroy]
+          end
           resources :documents
           resources :teams do
+            resources :admin_add_members, only: [:create, :destroy]
             resources :group_members, only: [:create, :destroy, :update]
           end
         end

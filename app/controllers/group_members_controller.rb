@@ -8,17 +8,15 @@ class GroupMembersController < ApplicationController
     @group_member = current_user.group_members.build group_member_params
     if @group_member.save
       case params[:group_members][:group_type]
-        when "organization"
-          member = @organization.group_members.find_by user_id: current_user.id
-        when "team"
-          member = @team.group_members.find_by user_id: current_user.id
+      when "organization"
+        member = @organization.group_members.find_by user_id: current_user.id
+      when "team"
+        member = @team.group_members.find_by user_id: current_user.id
       end
       respond_to do |format|
         format.html do
           render partial: "shared/leave",
-            locals: {
-              member: member
-            }
+            locals: {member: member}
         end
       end
     end
@@ -38,9 +36,7 @@ class GroupMembersController < ApplicationController
       respond_to do |format|
         format.html do
           render partial: "shared/join",
-            locals: {
-             object: object
-            }
+            locals: {object: object}
         end
       end
     end
@@ -87,5 +83,4 @@ class GroupMembersController < ApplicationController
       end
     end
   end
-
 end

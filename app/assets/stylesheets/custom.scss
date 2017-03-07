@@ -1294,3 +1294,10 @@ html,body {
   background-position:center;
   background-size:cover;
 }
+
+.icon-accept, .icon-decline{
+  cursor: pointer;
+}
+.icon-decline{
+  color: red;
+}

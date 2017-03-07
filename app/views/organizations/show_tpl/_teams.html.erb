@@ -1,1 +1,50 @@
-<h3><%= t "organizations.show.teams" %></h3>
+<div class="tab-content col-md-10 col-md-offset-1 list-user-1">
+  <div id="alluser" class="tab-pane fade in active">
+    <table class="cart table table-hover new-order">
+      <thead>
+      <tr class="info row">
+        <th class="col-md-1"></th>
+        <th class="col-md-2"><%= t ".index" %></th>
+        <th class="col-md-3"><%= t ".name" %></th>
+        <th class="col-md-4"><%= t "team.created" %></th>
+        <th class="col-md-5"></th>
+        <th class="col-md-5"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% if @organization.has_member? current_user %>
+        <% @support.teams.each_with_index do |team, index| %>
+          <tr class="row">
+            <th class="col-md-1"></th>
+            <td class="col-md-2"><%= index + 1 %></td>
+            <td class="col-md-3"><b><%= link_to team.name,
+              [team.organization, team] %></b></td>
+            <td class="col-md-4">
+              <b><%= team.created_at.strftime("%b %d, %Y") %></b>
+            </td>
+            <% if team.has_admin? current_user %>
+              <td class="col-md-5">
+                <b>
+                  <%= link_to t("edit"),
+                    edit_organization_team_path(team.organization, team) %>
+                </b>
+              </td>
+              <td class="col-md-5">
+                <b>
+                  <%= link_to t("delete"), [team.organization, team],
+                    method: :delete, data: {confirm: t("team.delete.delete")} %>
+                </b>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+        </tbody>
+      <% end %>
+      </table>
+  </div>
+  <% if @organization.is_admin? current_user %>
+    <div>
+      <%= link_to t("team.new"), new_organization_team_path(@organization) %>
+    </div>
+  <% end %>
+</div>
